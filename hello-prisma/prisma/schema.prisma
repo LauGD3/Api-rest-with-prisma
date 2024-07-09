@@ -18,6 +18,7 @@ datasource db {
 model TipoDocumento {
   idTipoDocumento Int @id @default(autoincrement())
   tipoDoc String
+  // Relations
   personas Persona[]
 }
 
