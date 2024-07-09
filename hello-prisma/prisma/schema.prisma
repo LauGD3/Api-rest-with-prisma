@@ -33,13 +33,17 @@ model Persona {
   
   tipoDocumento Int 
   tipoDoc TipoDocumento @relation(fields: [tipoDocumento], references: [idTipoDocumento])
-  
+  // Relations 
   user Usuario?
+  equipo Equipo[]
+  servicio Servicio[]
+  factura Factura[]
 }
 
 model TipoUsuario {
   idTipoUsuario Int @id @default(autoincrement())
   tipoUsuario String
+  // Relations
   user Usuario[]
 }
 
@@ -47,13 +51,70 @@ model Usuario  {
   idUsuario Int @id
   user Persona @relation(fields: [idUsuario], references: [idPersona])
   correo String
-  clave String
-  tipoUsuario Int
+  clave String @db.VarChar(500)
+  tipoUsuario Int @default(1)
   tipoUser TipoUsuario @relation(fields: [tipoUsuario], references: [idTipoUsuario])
 }
 
 model Equipo {
   idEquipo Int @id @default(autoincrement())
   descripcionProblema String
+  
   propietario Int
+  prop  Persona @relation(fields: [propietario], references: [idPersona])
+  // Relations
+  servicio Servicio[]
+}
+
+model TipoServicio {
+  idtipoServicio Int @id @default(autoincrement())
+  descripcion String 
+  // Relations
+  servicio Servicio[]
+}
+
+model Servicio {
+  idServicio Int @id @default(autoincrement())
+  descripcion String 
+  
+  equipoAreparar Int
+  equipoArepararRelation Equipo @relation(fields: [equipoAreparar], references: [idEquipo])
+
+  tipoServicio Int
+  tipoServicioRelation TipoServicio @relation(fields: [tipoServicio], references: [idtipoServicio])
+
+  tecnicoEncargado Int
+  tecnicoEncargadoRelation Persona @relation(fields: [tecnicoEncargado], references: [idPersona])
+  // Relations
+  detalleFac DetalleFactura[]
+}
+
+model DetalleFactura {
+  idDetalleFactura Int @id @default(autoincrement())
+  costo Float
+  
+  servicio Int
+  servicioRelation Servicio @relation(fields: [servicio], references: [idServicio])
+  
+  factura Factura[]
+}
+
+enum Estado {
+  enProceso
+  Terminado
+}
+
+model Factura {
+  idFactura Int @id @default(autoincrement())
+  fecha DateTime
+  costo Float
+  
+  cliente Int
+  clienteRelation Persona @relation(fields: [cliente], references: [idPersona])
+  
+  estado Estado
+
+  detalleFactura Int
+  detalleFacturaRelation DetalleFactura @relation(fields: [detalleFactura], references: [idDetalleFactura])
+  
 }
