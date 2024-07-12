@@ -4,33 +4,33 @@ import { Request, Response } from "express";
 const prisma = new PrismaClient();
 
 /**
- * This endponit will give you a json with all data of the table TipoUsuario in database.
+ * This endponit will give you a json with all data of the table TipoDocumento in database.
  * @param req 
  * @param res 
  * @returns Code 404 if the table do not have any register
- *  or code 202 with the json of all TipoUsuario registers
+ *  or code 202 with the json of all TipoDocumento registers
  */
 export const findAll = async (req: Request, res: Response) => {
-  const tipeUsers = await prisma.tipoUsuario.findMany();
+  const tipeDocs = await prisma.tipoDocumento.findMany();
   
-  if(tipeUsers.length <= 0) {
+  if(tipeDocs.length <= 0) {
     return res.status(404).json({ message: 'Data not found' });
   }
 
-  return res.status(202).json({ tipeUsers });
+  return res.status(202).json({ tipeDocs });
 }
 /**
- * This create one row of TipoUsuario table
+ * This create one row of TipoDocumento table
  * @param req 
  * @param res 
  * @returns Code 201 when the register will done
  */
 export const createOne = async (req: Request, res: Response) => {
-  const tipoUs = await prisma.tipoUsuario.create({
+  const tipoDoc = await prisma.tipoDocumento.create({
     data: req.body
   });
 
-  return res.status(201).json({message: 'The data was crated successfully', tipoUs});
+  return res.status(201).json({message: 'The data was crated successfully', tipoDoc});
 }
 /**
  * This, update one register if exist
@@ -41,16 +41,16 @@ export const createOne = async (req: Request, res: Response) => {
 export const updateOne = async (req: Request, res: Response) => {  
   const { id } = req.params;
 
-  const findData = await prisma.tipoUsuario.findUnique({
+  const findData = await prisma.tipoDocumento.findUnique({
     where: {
-      idTipoUsuario: parseInt(id)
+      idTipoDocumento: parseInt(id)
     }
   });
 
   if(findData != null) {
-    const update = await prisma.tipoUsuario.update({
+    const update = await prisma.tipoDocumento.update({
       where: {
-        idTipoUsuario: parseInt(id)
+        idTipoDocumento: parseInt(id)
       },
       data: req.body
     });    
@@ -69,16 +69,16 @@ export const updateOne = async (req: Request, res: Response) => {
 export const deleteOne = async (req: Request, res: Response) => {
   const { id } = req.params;
   // Verify if the data exist
-  const findData = await prisma.tipoUsuario.findUnique({
+  const findData = await prisma.tipoDocumento.findUnique({
     where: {
-      idTipoUsuario: parseInt(id)
+      idTipoDocumento: parseInt(id)
     }
   });
   // Delete the data if exist
   if(findData != null) {
-    const deleted = await prisma.tipoUsuario.delete({
+    const deleted = await prisma.tipoDocumento.delete({
       where: {
-        idTipoUsuario: parseInt(id)
+        idTipoDocumento: parseInt(id)
       }
     });
     return res.status(200).json({message: 'The data was deleted successfully' });   
@@ -90,9 +90,9 @@ export const deleteOne = async (req: Request, res: Response) => {
 export const findOne = async (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const result = await prisma.tipoUsuario.findUnique({
+  const result = await prisma.tipoDocumento.findUnique({
     where: {
-      idTipoUsuario: parseInt(id)
+      idTipoDocumento: parseInt(id)
     }
   });
 

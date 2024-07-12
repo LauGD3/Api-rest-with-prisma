@@ -13,31 +13,31 @@ exports.findOne = exports.deleteOne = exports.updateOne = exports.createOne = ex
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 /**
- * This endponit will give you a json with all data of the table TipoUsuario in database.
+ * This endponit will give you a json with all data of the table TipoDocumento in database.
  * @param req
  * @param res
  * @returns Code 404 if the table do not have any register
- *  or code 202 with the json of all TipoUsuario registers
+ *  or code 202 with the json of all TipoDocumento registers
  */
 const findAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tipeUsers = yield prisma.tipoUsuario.findMany();
-    if (tipeUsers.length <= 0) {
+    const tipeDocs = yield prisma.tipoDocumento.findMany();
+    if (tipeDocs.length <= 0) {
         return res.status(404).json({ message: 'Data not found' });
     }
-    return res.status(202).json({ tipeUsers });
+    return res.status(202).json({ tipeDocs });
 });
 exports.findAll = findAll;
 /**
- * This create one row of TipoUsuario table
+ * This create one row of TipoDocumento table
  * @param req
  * @param res
  * @returns Code 201 when the register will done
  */
 const createOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const tipoUs = yield prisma.tipoUsuario.create({
+    const tipoDoc = yield prisma.tipoDocumento.create({
         data: req.body
     });
-    return res.status(201).json({ message: 'The data was crated successfully', tipoUs });
+    return res.status(201).json({ message: 'The data was crated successfully', tipoDoc });
 });
 exports.createOne = createOne;
 /**
@@ -48,15 +48,15 @@ exports.createOne = createOne;
  */
 const updateOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const findData = yield prisma.tipoUsuario.findUnique({
+    const findData = yield prisma.tipoDocumento.findUnique({
         where: {
-            idTipoUsuario: parseInt(id)
+            idTipoDocumento: parseInt(id)
         }
     });
     if (findData != null) {
-        const update = yield prisma.tipoUsuario.update({
+        const update = yield prisma.tipoDocumento.update({
             where: {
-                idTipoUsuario: parseInt(id)
+                idTipoDocumento: parseInt(id)
             },
             data: req.body
         });
@@ -76,16 +76,16 @@ exports.updateOne = updateOne;
 const deleteOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     // Verify if the data exist
-    const findData = yield prisma.tipoUsuario.findUnique({
+    const findData = yield prisma.tipoDocumento.findUnique({
         where: {
-            idTipoUsuario: parseInt(id)
+            idTipoDocumento: parseInt(id)
         }
     });
     // Delete the data if exist
     if (findData != null) {
-        const deleted = yield prisma.tipoUsuario.delete({
+        const deleted = yield prisma.tipoDocumento.delete({
             where: {
-                idTipoUsuario: parseInt(id)
+                idTipoDocumento: parseInt(id)
             }
         });
         return res.status(200).json({ message: 'The data was deleted successfully' });
@@ -97,9 +97,9 @@ const deleteOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.deleteOne = deleteOne;
 const findOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const result = yield prisma.tipoUsuario.findUnique({
+    const result = yield prisma.tipoDocumento.findUnique({
         where: {
-            idTipoUsuario: parseInt(id)
+            idTipoDocumento: parseInt(id)
         }
     });
     if (result != null) {
